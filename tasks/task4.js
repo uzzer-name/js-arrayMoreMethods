@@ -3,9 +3,41 @@
 // Якщо це так, то фільтруємо машини по бренду і повертаємо ті, що найбільш економні.
 
 function getMostFuelEfficientCars(cars, brand) {
-  // Ваш код
+    // Створюємо масив для економічних машин
+    const efficientCars = [];
+
+    // Проходимо по масиву автомобілів
+    for (let i = 0; i < cars.length; i++) {
+        const car = cars[i];
+
+        // Перевіряємо, чи витрата пального менше 6 л/100 км
+        if (car.fuelConsumption < 6) {
+            // Якщо бренд відповідає, додаємо машину в масив
+            if (car.brand === brand) {
+                efficientCars.push(car);
+            }
+        } else {
+            // Якщо хоч одна машина має більшу витрату, повертаємо порожній масив
+            return [];
+        }
+    }
+
+    // Сортуємо економічні машини за витратою пального
+    for (let j = 0; j < efficientCars.length - 1; j++) {
+        for (let k = 0; k < efficientCars.length - 1 - j; k++) {
+            if (efficientCars[k].fuelConsumption > efficientCars[k + 1].fuelConsumption) {
+                // Обмінюємо місцями
+                const temp = efficientCars[k];
+                efficientCars[k] = efficientCars[k + 1];
+                efficientCars[k + 1] = temp;
+            }
+        }
+    }
+
+    return efficientCars; // Повертаємо масив найбільш економічних машин
 }
 
+/*
 // Приклад використання:
 const cars = [
   { brand: 'Toyota', model: 'Corolla', fuelConsumption: 5.2 },
@@ -28,4 +60,6 @@ console.log(getMostFuelEfficientCars(cars, 'Audi'));
 console.log(getMostFuelEfficientCars(cars, 'Dodge'));  
 
 console.log(getMostFuelEfficientCars(cars, 'Ford'));  
+*/
+
 module.exports = getMostFuelEfficientCars;
